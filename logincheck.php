@@ -1,4 +1,4 @@
-<?php  
+﻿<?php  
     if(isset($_POST["submit"]) && $_POST["submit"] == "登陆")  
     {  
         $user = $_POST["username"];  
@@ -62,7 +62,7 @@
                 echo "<script>alert('注册成功！');</script>"; 
                 echo "<script>alert('3秒后跳转到首页')";
                 sleep(3);
-                header('Location:index.html');  
+                header('Location:ad.html');  
             }  
             else  
             {  
