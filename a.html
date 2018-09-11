@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<<!-- script src="//unpkg.com/ydui-district/dist/gov_province_city_area_id.js"></script>
+<script>import District from 'ydui-district/dist/gov_province_city_area_id'</script>
+<script src="//unpkg.com/ydui-district/dist/gov_province_city_area_id.js"></script> -->
+<script src="http://code.jquery.com/jquery-latest.js"></script>
+<script>
+// let today = new Date();
+// let text = `The time and date is ${new Date().toLocaleString()} `;
+// console.log(text);
+// let luke = { occupation: 'jedi', father: 'anakin' };
+// let {occupation, father} = luke;
+// console.log(typeof(occupation)); 
+// console.log(father); 
+let urls = [
+  // 'package-lock.json',
+  // 'package.json',
+  // '/api/issues/comments',
+  '/api/pullrequests'
+  ];//接口
+
+
+let promises = urls.map((url) => {
+  return new Promise((resolve, reject) => {
+    $.ajax({ url: url })
+      .done((data) => {
+        resolve(data);
+      });
+  });
+  });
+
+Promise.all(promises)
+  .then((results) => {
+    // Do something with results of all our promises
+    resolve: () =>{console.log("拒绝请求！")}
+ });
+</script>
+
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+</head>
+<body>
+
+</body>
+</html>
