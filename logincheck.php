@@ -62,7 +62,7 @@
                 echo "<script>alert('注册成功！');</script>"; 
                 echo "<script>alert('3秒后跳转到首页')";
                 sleep(3);
-                header('Location:ad.html');  
+                header('Location:index.html');  
             }  
             else  
             {  
