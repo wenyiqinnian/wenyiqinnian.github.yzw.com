@@ -1,423 +1,387 @@
-<!DOCTYPE html>
-<html lang="en">
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
+  <script src="./echarts.min.js"></script>
+ <script src="./node_modules/echarts/dist/echarts.js"></script>
 <head>
-	<meta charset="UTF-8">
+	<meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
 	<title>Document</title>
-	<style>
-	*{
-		margin: 0;
-		padding: 0;
-	}
-	#container{
-		margin:0 auto;
-		position: relative;
-	}
-	.box{
-		padding:5px;
-		float:left;
-		background-color: pink;
-	}
-	.box .box_img{
-		padding: 5px;
-		border:1px solid palegoldenrod;
-		border-radius: 5px;
-	}
-	.box img{
-		width:150px;
-	}
+	<style type="text/css">
+		body{
+			background-image: url('./imgWai/haokan.jpg');
+			background-size:100% 100%;
+			background-attachment: fixed;
+		}
+		*{margin: 0;padding: 0;}
+		.box{
+			width: 1200px;
+			margin: 0 auto;
+		}
+		div.box div{
+			width:1200px;
+			margin: 0 auto;
+			margin-top: -1px;
+		}
+		   div.topBar{
+		   		height: 72px;
+    			background-color: grey;} 
+		   div.topBar span.logo{
+		   	display: inline-block;
+		   	width:60px;
+		   	height: 60px;
+		   	border-radius: 50%;
+		   	background-width:80px;
+		   	background-height:80px; 
+		   	background:url(img/firstlogo.png);
+		   }   
+		   div.topBar ul {list-style: none; float:right;}     
+		   div.topBar ul li{
+		   		line-height: 24px;
+		   	    margin-right: 107px;
+    			float: left;
+    			border: 1px solid #adc;
+    			background-color: rgba(0,20,24,0,4);
+    			background-color: rgba(54, 92, 15, 0.6);
+    			width: 80px;
+    			text-align: center;
+    			margin-top: 30px;
+    			height: 22px;
+    			border-radius: 6px;
+    			cursor:pointer;
+    			color:white;
+		   }     
+		   div.topBar  div.sliderImage{}
 
+
+
+		div.box div.header1,div.box div.lz,div.box div.mj,div.box div.bb,div.box div.attention,div.box div.lx,div.box div.weather{
+			/*border:1px solid red;*/
+			border-radius: 40px;
+			height: 300px;
+			background-color: rgba(73,122,102,0.5);
+		}
+		div.box div.allLike{
+			/*border:1px solid red;*/
+			height: 100px;
+			border-radius: 20px;
+			background-color: rgba(122,80,73,0.75);
+		}
+		div.box div.allLike div.allgo{
+			margin-top: 4px;
+            margin-right: 200px;
+            width: 100px;
+            height: 90px;
+            border-radius: 50%;
+            float: right;
+		}
+		div.box div.allLike p{
+			    color: rgb(54, 244, 61);
+  				 font-size: 30px;
+  				 float: left;
+  				 margin-top: 27px;
+		}
+		div.box div.allLike div.allgo img{
+			display: block;
+			width:100%;
+			height: 100%;
+			border-radius: 50px;
+		}
+		div#main{
+			width: 1200px;
+			height:200px;
+			background-color: beige !important;
+			border-radius: 20px;
+			margin-top: -1px;
+		}
+		div.weather{
+			overflow: hidden;
+		}
+		div.box div.footer{
+			/*border:1px solid red;*/
+			border-radius: 20%;
+			background-color: yellow-green;
+			height: 80px;
+		}
+		div.footer p {text-align: center; font-size:15px;  margin-top: 20px;font-weight: bold;}
+		div.footer p a{color:rgb(23,233,132); text-decoration: none;}
+		div.footer p a:hover{color:rgb(233,23,13);}
+		div.footer div.connect{text-align: center;margin-top: 15px;color:rgba(211,33,12,1);}
+		img {
+			width: 100%;
+		} 
+
+		.nav{
+			width: 36px;
+			/*height: 228px;*/
+			position: fixed;
+			top: 50%;
+			margin-top: -118px;
+			left: 50%;
+			margin-left: 600px;
+			/*background-color: pink;*/
+			/*border: 1px solid red;*/
+			display: none;
+		}
+		.nav ul{
+			list-style: none;
+		}
+		.nav li{
+			width: 36px;
+			height: 36px;
+			/*border-top: 1px solid red;*/
+			margin-top: -1px;
+		}
+		.nav li a{
+			display: block;
+			font-size: 12px;
+			line-height: 15px;
+			text-align: center;
+			text-decoration: none;
+			padding: 3px 0;
+			color: #666;
+			background: url('./jd/bg.png') no-repeat 0 0;
+			color: transparent;
+			background-color: #f8f8f8;
+
+		}
+
+		.nav li a:hover,
+		.nav li.current a
+		{
+			color: #fff !important;
+			background-color: red;
+			background-image: none;
+		}
 	</style>
+	<script type="text/javascript" src='jquery-3.2.1.js'></script>
+	<script type="text/javascript">
+		$(function () {
+			//根据不同的按钮  来设置不同的 background-position
+			// $('.nav > ul > li > a').each(function(index, element){
+			// 	$(element).css('background-position', "0 -" + (index * 55) + "px");
+			// })
+		//最后一个a不需要设置背景图片
+		//通过先选中最后一个，再通过siblings来反选其他的a	
+		$('#returnTop').siblings().find('a').each(function(index, element){
+			$(element).css('background-position', "0 -" + (index * 55) + "px").click(function(){
+				// console.log(this);
+				//要获取的是li的index而不是a的index
+				//index() 获取当前元素在父元素中的序号
+				var index = $(this).parent().index();
+				// console.log(index);
+				//获取对应的div
+				var targetBox = $('.box div#slide').eq(index+1);
+				//获取最顶部的top值
+				//在jquery中  通过offset()函数获取offset值，top来获取top方向的值
+				// console.log(targetBox.offset().top);
+				//滚动到目标位置
+				$('html,body').stop().animate({scrollTop : targetBox.offset().top});
+
+
+
+			});
+		});
+
+		//单独操作最后一个a
+		$('#returnTop a').css({
+			backgroundImage : 'none',
+			color : '#666'
+		}).click(function(){
+			$('html, body').stop().animate({scrollTop : 0});
+		})
+
+
+
+		//监听滚动
+		$(window).scroll(function(){
+			//获取滚动的高度
+			var scrollTop = $(document).scrollTop();
+
+			//根据各个div的offsetTop值 来判断当前是在第几个div
+			// if (scrollTop) {}
+
+			if (scrollTop < $('.box div#slide').eq(1).offset().top) {
+				$('.nav').fadeOut();
+
+			} else {
+				$('.nav').fadeIn();
+
+				//根据滑动值 来判断是第几个栏目
+				// if (scrollTop < $('.box div').eq(2).offset().top) {
+				// 	console.log('eq222')
+				// }
+				var minIndex = $('.nav li').length;
+				$('.box div#slide').each(function(index, element){
+					// scrollTop 
+					// $(element).offset().top
+					if (scrollTop < $(element).offset().top) {
+						// console.log(index);
+						if (index < minIndex) {
+							minIndex = index;
+						}
+					}
+				})
+				// console.log(minIndex);
+				minIndex -= 2;
+				//点亮相对于的li
+				//在jQuery中 的class操作
+				$('.nav li').eq(minIndex).addClass('current').siblings('li').removeClass('current');
+
+			}
+
+		});
+
+
+
+
+
+
+        // 基于准备好的dom，初始化echarts实例
+        var myChart = echarts.init(document.getElementById('main'));
+
+        // 指定图表的配置项和数据
+
+option = {
+    // tooltip: {
+    //     trigger: 'item',
+    //     // formatter: "{a} <br/>{b}: {c} ({d}%)"
+    // },
+    legend: {
+        orient: 'vertical',
+        x: 'left',
+        data:['明月山','婺源','三清山','仙女湖','河口古镇','其他']
+    },
+    series: [
+        {
+            name:'访问来源',
+            type:'pie',
+            radius: ['60%', '80%'],
+            avoidLabelOverlap: false,
+            label: {
+                normal: {
+                    show: false,
+                    position: 'center'
+                },
+                emphasis: {
+                    show: true,
+                    textStyle: {
+                        fontSize: '30',
+                        fontWeight: 'bold'
+                    }
+                }
+            },
+            labelLine: {
+                normal: {
+                    show: false
+                }
+            },
+            data:[
+                {value:335, name:'明月山'},
+                {value:310, name:'婺源'},
+                {value:234, name:'三清山'},
+                {value:135, name:'仙女湖'},
+                {value:800, name:'河口古镇'},
+                {value:1548, name:'其他'}
+            ]
+        }
+    ]
+};
+
+        // 使用刚指定的配置项和数据显示图表。
+        myChart.setOption(option);
+
+
+
+
+
+
+		});
+
+
+
+
+
+
+	</script>
 </head>
 <body>
-<script>
-window.onload = function(){
-	// window.navigate("./logincheck.php");
-	// alert("请欣赏美女");
-	var boxArr = document.getElementsByClassName('box');//获得所有的图片，放在boxArr
-	var container = document.getElementById("container");
-	var boxHeightArr = [];
-
-
-	// 判断是否可以开始加载图片进来的函数
-	function checkFlag(boxHeightArr){
-		var scrollTop = Math.max(document.documentElement.scrollTop,document.body.scrollTop);
-		var pageHeight = Math.max(document.documentElement.clientHeight,document.body.clientHeight);
-		//console.log(scrollTop + "+" +pageHeight);
-		if(scrollTop + pageHeight > Math.min.apply(null,boxHeightArr))//如果卷过的和现在窗口大小之和，也就是你看到的底部比 现有最小高度更大，也就是有空了
-		{return true;}
-	}
 	
-	//获得最小高度对应下标的函数
-	function getMinHeightIndex(arr,minHeight){
-		for(var index = 0; index < arr.length; index++){
-			if(arr[index] === minHeight){
-				return index;
-			}
-		}	
-	}
-
-
-	//定位函数，这里面有定位图片的过程
-	function imgLocation(container,content,boxHeightArr){//container对应外部宽度，boxArr对应content图片组，boxHeightArr图片高度组
- 
-			var clientWidth = document.documentElement.clientWidth ;//看到的实际窗口大小
-			var cols = Math.floor(clientWidth / content[0].offsetWidth);//列数
-			container.style.width = content[0].offsetWidth * cols + "px";//包裹宽度
-
-
-			for(var i = 0; i < content.length; i++){
-				if(i < cols){ 
-					boxHeightArr[i] = content[i].offsetHeight;//boxHeightArr.length不能代替第一个i，获得图片高度数组，是全局的i=0-10共11张图片
-					// console.log("boxHeightArr[i]"+boxHeightArr[i]);
-					console.log("wobeizhixingle");
-				}
-				else{
-					// console.log(i);//从12开始
-					var minHeight = Math.min.apply(null,boxHeightArr);//获得最小高度
-					var minIndex = getMinHeightIndex(boxHeightArr,minHeight);//获得最小高度所对应的下标
-					console.log(minIndex);
-					//对新加入的图片进行定位
-					content[i].style.position = "absolute";
-					content[i].style.left = minIndex * content[i].offsetWidth + "px";
-					content[i].style.top = minHeight + "px";
-
-					// console.log(boxHeightArr[i]);
-
-					boxHeightArr[minIndex] += content[i].offsetHeight; //每添加一张图片刷新
-					console.log(minIndex+"minIndex");//0-10
-					//这句化理解是核心，boxHeightArr[minIndex]加一张图片变一次数据，加上来的
-					//图片
-
-				}
-			}
-	}
-
-	imgLocation(container,boxArr,boxHeightArr);
-
-
-
-
-
-	//数据通过Ajax请求获得
-	
-	var imgDate = {
-		"data" : [{"src" : "1.jpg"},{"src" : "2.jpg"},
-		{"src" : "3.jpg"},{"src" : "4.jpg"},{"src" : "5.jpg"},
-		{"src" : "6.jpg"},{"src" : "7.jpg"},{"src" : "8.jpg"},
-		{"src" : "9.jpg"},{"src" : "10.jpg"}]
-	};
-	
-
-	//滚动的时候，判断是否有空白了，也就是最小高度的那个滚完了，是的话就开始加载数据
-	//拿到数据遍历，添加和原来一样的结构，把拿到的图片一张一张添加进去，添加进去后再用
-	//定位的函数来一张张定位
-	window.onscroll = function(){
-
-		if(checkFlag(boxHeightArr)){
-			console.log("现在可以加图片进来了");
-			var data = imgDate.data;
-			for(let item of data){
-
-				//复制节点，添加类
-				var newBox = document.createElement('div');
-				newBox.className = "box";
-				var newBoxImage = document.createElement('div');
-				newBoxImage.className = "box_img"
-				var img = document.createElement('img');
-				img.src = "./img/"+ item.src;//获得图片地址
-
-				//用复制的节点复制结构
-				newBoxImage.appendChild(img);
-				newBox.appendChild(newBoxImage);
-				container.appendChild(newBox);
-			}
-
-			imgLocation(container,boxArr,boxHeightArr);
-		}
-	}
-
-
-}
-</script>
-	<div id="container">
-	<h1 style="color:green;">不够看？更多美女图片<a href="https://www.toutiao.com/i6599550494828397059/" style="color:red;">请点击这里！</a></h1>
-		<div class="box"><div class="box_img"><img src="./img/1.jpg" alt=""></div></div>
-
-		<div class="box"><div class="box_img"><img src="./img/2.jpg" alt=""></div></div>
-
-		<div class="box"><div class="box_img"><img src="./img/3.jpg" alt=""></div></div>
-
-		<div class="box"><div class="box_img"><img src="./img/4.jpg" alt=""></div></div>
-
-		<div class="box"><div class="box_img"><img src="./img/5.jpg" alt=""></div></div>
-
-		<div class="box"><div class="box_img"><img src="./img/6.jpg" alt=""></div></div>
-
-		<div class="box"><div class="box_img"><img src="./img/7.jpg" alt=""></div></div>
-		
-		<div class="box"><div class="box_img"><img src="./img/1.jpg" alt=""></div></div>
-		
-		<div class="box"><div class="box_img"><img src="./img/2.jpg" alt=""></div></div>
-		
-		<div class="box"><div class="box_img"><img src="./img/3.jpg" alt=""></div></div>
-		
-		<div class="box"><div class="box_img"><img src="./img/4.jpg" alt=""></div></div>
-		
-		<div class="box"><div class="box_img"><img src="./img/5.jpg" alt=""></div></div>
-		
-		<div class="box"><div class="box_img"><img src="./img/1.jpg" alt=""></div></div>
-
-		<div class="box"><div class="box_img"><img src="./img/2.jpg" alt=""></div></div>
-
-		<div class="box"><div class="box_img"><img src="./img/3.jpg" alt=""></div></div>
-
-		<div class="box"><div class="box_img"><img src="./img/4.jpg" alt=""></div></div>
-
-		<div class="box"><div class="box_img"><img src="./img/5.jpg" alt=""></div></div>
-
-		<div class="box"><div class="box_img"><img src="./img/6.jpg" alt=""></div></div>
-
-		<div class="box"><div class="box_img"><img src="./img/7.jpg" alt=""></div></div>
-		
-		<div class="box"><div class="box_img"><img src="./img/1.jpg" alt=""></div></div>
-		
-		<div class="box"><div class="box_img"><img src="./img/2.jpg" alt=""></div></div>
-		
-		<div class="box"><div class="box_img"><img src="./img/3.jpg" alt=""></div></div>
-		
-		<div class="box"><div class="box_img"><img src="./img/4.jpg" alt=""></div></div>
-		
-		<div class="box"><div class="box_img"><img src="./img/5.jpg" alt=""></div></div>
-		
-		<div class="box"><div class="box_img"><img src="./img/1.jpg" alt=""></div></div>
-
-		<div class="box"><div class="box_img"><img src="./img/2.jpg" alt=""></div></div>
-
-		<div class="box"><div class="box_img"><img src="./img/3.jpg" alt=""></div></div>
-
-		<div class="box"><div class="box_img"><img src="./img/4.jpg" alt=""></div></div>
-
-		<div class="box"><div class="box_img"><img src="./img/5.jpg" alt=""></div></div>
-
-		<div class="box"><div class="box_img"><img src="./img/6.jpg" alt=""></div></div>
-
-		<div class="box"><div class="box_img"><img src="./img/7.jpg" alt=""></div></div>
-		
-		<div class="box"><div class="box_img"><img src="./img/1.jpg" alt=""></div></div>
-		
-		<div class="box"><div class="box_img"><img src="./img/2.jpg" alt=""></div></div>
-		
-		<div class="box"><div class="box_img"><img src="./img/3.jpg" alt=""></div></div>
-		
-		<div class="box"><div class="box_img"><img src="./img/4.jpg" alt=""></div></div>
-		
-		<div class="box"><div class="box_img"><img src="./img/5.jpg" alt=""></div></div>
-		
-		<div class="box"><div class="box_img"><img src="./img/1.jpg" alt=""></div></div>
-
-		<div class="box"><div class="box_img"><img src="./img/2.jpg" alt=""></div></div>
-
-		<div class="box"><div class="box_img"><img src="./img/3.jpg" alt=""></div></div>
-
-		<div class="box"><div class="box_img"><img src="./img/4.jpg" alt=""></div></div>
-
-		<div class="box"><div class="box_img"><img src="./img/5.jpg" alt=""></div></div>
-
-		<div class="box"><div class="box_img"><img src="./img/6.jpg" alt=""></div></div>
-
-		<div class="box"><div class="box_img"><img src="./img/7.jpg" alt=""></div></div>
-		
-		<div class="box"><div class="box_img"><img src="./img/1.jpg" alt=""></div></div>
-		
-		<div class="box"><div class="box_img"><img src="./img/2.jpg" alt=""></div></div>
-		
-		<div class="box"><div class="box_img"><img src="./img/3.jpg" alt=""></div></div>
-		
-		<div class="box"><div class="box_img"><img src="./img/4.jpg" alt=""></div></div>
-		
-		<div class="box"><div class="box_img"><img src="./img/5.jpg" alt=""></div></div>
-		
-		<div class="box"><div class="box_img"><img src="./img/1.jpg" alt=""></div></div>
-
-		<div class="box"><div class="box_img"><img src="./img/2.jpg" alt=""></div></div>
-
-		<div class="box"><div class="box_img"><img src="./img/3.jpg" alt=""></div></div>
-
-		<div class="box"><div class="box_img"><img src="./img/4.jpg" alt=""></div></div>
-
-		<div class="box"><div class="box_img"><img src="./img/5.jpg" alt=""></div></div>
-
-		<div class="box"><div class="box_img"><img src="./img/6.jpg" alt=""></div></div>
-
-		<div class="box"><div class="box_img"><img src="./img/7.jpg" alt=""></div></div>
-		
-		<div class="box"><div class="box_img"><img src="./img/1.jpg" alt=""></div></div>
-		
-		<div class="box"><div class="box_img"><img src="./img/2.jpg" alt=""></div></div>
-		
-		<div class="box"><div class="box_img"><img src="./img/3.jpg" alt=""></div></div>
-		
-		<div class="box"><div class="box_img"><img src="./img/4.jpg" alt=""></div></div>
-		
-		<div class="box"><div class="box_img"><img src="./img/5.jpg" alt=""></div></div>
-
-		
-		<div class="box"><div class="box_img"><img src="./img/6.jpg" alt=""></div></div>
-
-		
-		<div class="box"><div class="box_img"><img src="./img/7.jpg" alt=""></div></div>
-
-		
-		<div class="box"><div class="box_img"><img src="./img/7.jpg" alt=""></div></div>
-
-		
-		<div class="box"><div class="box_img"><img src="./img/7.jpg" alt=""></div></div>
-
-		
-		<div class="box"><div class="box_img"><img src="./img/7.jpg" alt=""></div></div>
-
-		<div class="box"><div class="box_img"><img src="./img/7.jpg" alt=""></div></div>
-
-
-		<div class="box"><div class="box_img"><img src="./img/1.jpg" alt=""></div></div>
-
-
-		<div class="box"><div class="box_img"><img src="./img/2.jpg" alt=""></div></div>
-
-
-		<div class="box"><div class="box_img"><img src="./img/3.jpg" alt=""></div></div>
-
-
-		<div class="box"><div class="box_img"><img src="./img/4.jpg" alt=""></div></div>
-
-
-		<div class="box"><div class="box_img"><img src="./img/5.jpg" alt=""></div></div>
-
-
-		<div class="box"><div class="box_img"><img src="./img/6.jpg" alt=""></div></div>
-
-
-		<div class="box"><div class="box_img"><img src="./img/7.jpg" alt=""></div></div>
-
-
-		<div class="box"><div class="box_img"><img src="./img/7.jpg" alt=""></div></div>
-
-
-		<div class="box"><div class="box_img"><img src="./img/7.jpg" alt=""></div></div>
-
-
-		<div class="box"><div class="box_img"><img src="./img/7.jpg" alt=""></div></div>
-
-
-
-
-	<!-- <div class="box"><div class="box_img"><img src="./img/3.jpg" alt=""></div></div>
-
-		//如果没有一个图片，图片会加载不进来 
-	    <div>1</div>
-		<div>1</div>
-		<div>1</div>
-		<div>1</div>
-		<div>1</div>
-		<div>1</div>
-		<div>1</div>
-		<div>1</div>
-		<div>1</div>
-		<div>1</div>
-		<div>1</div>
-		<div>1</div>
-		<div>1</div>
-		<div>1</div>
-		<div>1</div>
-		<div>1</div>
-		<div>1</div>
-		<div>1</div>
-		<div>1</div>
-		<div>1</div>
-		<div>1</div>
-		<div>1</div>
-		<div>1</div>
-		<div>1</div>
-		<div>1</div>
-		<div>1</div>
-		<div>1</div>
-		<div>1</div>
-		<div>1</div>
-		<div>1</div>
-		<div>1</div>
-		<div>1</div>
-		<div>1</div>
-		<div>1</div>
-		<div>1</div>
-		<div>1</div>
-		<div>1</div>
-		<div>1</div>
-		<div>1</div>
-		<div>1</div>
-		<div>1</div>
-		<div>1</div>
-		<div>1</div>
-		<div>1</div>
-		<div>1</div>
-		<div>1</div>
-		<div>1</div>
-		<div>1</div>
-		<div>1</div>
-		<div>1</div>
-		<div>1</div>
-		<div>1</div>
-		<div>1</div>
-		<div>1</div>
-		<div>1</div>
-		<div>1</div>
-		<div>1</div>
-		<div>1</div>
-		<div>1</div>
-		<div>1</div>
-		<div>1</div>
-		<div>1</div>
-		<div>1</div>
-		<div>1</div>
-		<div>1</div>
-		<div>1</div>
-		<div>1</div>
-		<div>1</div>
-		<div>1</div>
-		<div>1</div>
-		<div>1</div>
-		<div>1</div>
-		<div>1</div>
-		<div>1</div>
-		<div>1</div>
-		<div>1</div>
-		<div>1</div>
-		<div>1</div>
-		<div>1</div>
-		<div>1</div>
-		<div>1</div>
-		<div>1</div>
-		<div>1</div>
-		<div>1</div>
-		<div>1</div>
-		<div>1</div>
-		<div>1</div>
-		<div>1</div>
-		<div>1</div>
-		<div>1</div>
-		<div>1</div>
-		<div>1</div>
-		<div>1</div>
-		<div>1</div>
-		<div>1</div>
-		<div>1</div>
-		<div>1</div>
-		<div>1</div>
-		<div>1</div>
-		<div>1</div>
-		<div>1</div>
-		<div>1</div>
-		<div>1</div> -->
+	<div class="box">
+		<div id="slide" class="header1">
+				<!-- 头部 布局左边一个网站图标 ，右边是联系我们，微博，微信qq, 移上去弹出二维码。-->
+				<div class="topBar"> 
+					<span class="logo"></span>
+				     <ul>
+				  	    <li>关注方式</li>
+				  	    <li>微博</li>
+				  	    <li>微信</li>
+				  	    <li>qq</li>
+				     </ul>
+				</div>
+				<div class="sliderImage"></div>
+				
+				 
+		</div>
+		<!-- 头部 布局左边一个网站图标 ，右边是联系我们，微博，微信qq, 移上去弹出二维码。 突出主题的轮播图-->
+		<div id="slide" class="lz" style="width:100%;height:100%" >
+				<a href="./position.html" style="display:block;width:100%;height:100%" >
+				</a>
+		</div>
+		<!-- 旅游资讯  1江西旅游推荐左图右字一行一行  2热门景点票价 3旅游动态新闻 **点进去1,3，点进去-->
+		<div id="slide" class="mj" style="background:url(./imgWai/bodyimg.jpg)">
+				<!-- <div class="beautyPlace"  style = "width:100%;height:100%">
+					<img src="./imgWai/bodyimg.jpg" style = "width:100%;height:100%">
+				</div -->>
+		</div>
+		<!-- 美景记录,放漂亮的图片，轮播图什么的。**点进去有对应的景点介绍界面用flex布局来做 界面用Bootstrap布局来做-->
+		<div id="slide" class="bb" style="background:url(./imgWai/meinu.jpg)">
+					<a href="./hello/indexNei.html" style="display:block;width:100%;height:100%">
+					</a>
+		</div>
+		<!-- 边游边购 各地特产图文简略。 **点进去图文介绍界面 界面用flex布局来做-->
+		<div id="slide" class="attention" style="background:url(./jd/fu.png)">
+				<!-- <div class="careThief"></div>
+				<div class="careElectric"></div>
+				<div class="careWater"></div>	 -->
+				<!-- <img src="./jd/fu.png" style="width:100%;height:100%"> -->
+		</div>
+		<!-- 旅途注意 1防偷图文 2防雷图文 3防溺水图文  ** 点进去各页面罗列图文详情-->
+		<div id="slide" class="lx">
+				<div class="saveMoney"></div>
+				<div class="aroundCity"></div>
+		</div>	
+		<!-- 休息旅馆 1省钱技巧 2本市宾馆请参照定位地图 -->
+
+
+		<div class="allLike">
+			<p>江西省内游数据调查分析，为出游提供更好的数据参考</p>
+			<div class="allgo"><img src="./imgWai/allgo.jpg" alt="" /></div>
+		</div>
+		 <div id="main" style=""></div>
+		<!-- 用echart -->
+		<div class="weather">weather用跨越，有文件
+				<iframe src="weather.html" frameborder="0" style="width:100%;height: 100%; position:relative;"></iframe>
+		</div>
+		<!-- 用跨越，有文件 -->
+		<div class="footer">
+		     <p><span><a href="">网站首页</a></span> &nbsp;| &nbsp;<span><a href="">关于青春游</a> </span>&nbsp; |&nbsp;  <span><a href="">广告推广</a></span> &nbsp; | &nbsp; <span><a href="">招聘英才</a></span> &nbsp; | &nbsp; <span><a href="">联系我们</a></span>  &nbsp;|  &nbsp;<span><a href="">网站地图</a></span> &nbsp; |&nbsp;  <span><a href="">法律声明</a></span> &nbsp; | &nbsp; <span><a href="">网站建设</a></span></p>
+		     <div class="connect">
+		     	联系地址： 你找不到 站务合作：0799-8266725 企业传真：0799-8042000</div>
+			</div>
+		</div>
 
 	</div>
+
+	<div class="nav">
+		<ul>
+			<li class="current"><a href="./position.html" style="border-radius:20%">我在<br />哪儿</a></li>
+			<li><a href="javascript:;" style="border-radius:20%">名胜<br />风景</a></li>
+			<li><a href="javascript:;" style="border-radius:20%">美女<br />欣赏</a></li>
+			<li><a href="javascript:;" style="border-radius:20%">旅途<br />购物</a></li>
+			<li><a href="javascript:;" style="border-radius:20%">休息<br />旅馆</a></li>
+			<li id="returnTop"><a href="javascript:;">返回<br />顶部</a></li>
+		</ul>
+	</div>
+
+
 </body>
 </html>
